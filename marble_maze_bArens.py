@@ -37,6 +37,26 @@ maze2 = [
     ]
 maze3 = [
     [r,r,r,r,r,r,r,r,],
+    [r,b,b,b,b,b,k,r,],
+    [r,r,r,b,r,r,r,r,],
+    [k,b,b,b,b,b,r,r,],
+    [r,b,b,r,b,b,k,r,],
+    [r,b,r,r,b,r,r,r,],
+    [r,b,g,r,b,b,k,r,],
+    [r,r,r,r,r,r,r,r,],
+    ]
+maze4 = [
+    [r,r,r,r,r,r,r,r,],
+    [r,b,r,b,b,b,b,r,],
+    [r,b,r,b,r,r,b,r,],
+    [r,b,r,b,g,r,b,r,],
+    [r,b,r,b,k,r,b,r,],
+    [r,b,r,r,r,r,b,r,],
+    [r,b,b,b,b,b,b,r,],
+    [r,r,r,r,r,r,r,r,],
+    ]
+maze5 = [
+    [r,r,r,r,r,r,r,r,],
     [r,b,b,b,b,b,b,r,],
     [r,b,b,b,b,b,b,r,],
     [r,b,b,b,b,b,b,r,],
@@ -45,7 +65,8 @@ maze3 = [
     [r,b,b,b,b,b,g,r,],
     [r,r,r,r,r,r,r,r,],
     ]
-mazes = [maze1,maze2,maze3]
+'''maze1,maze2,maze3,'''
+mazes = [maze4,'''maze5''']
 maze = random.choice(mazes)
 y=1
 x=1
@@ -59,60 +80,66 @@ while gameOver == False:
     pitch = o["pitch"]
     roll = o["roll"]
     yaw = o["yaw"]
-    sleep(0.0625
-          )
+    sleep(0.125)
     if 10 < pitch and pitch < 170:
-        if maze[y][x-1]==b:
-            maze[y][x]=b
-            x -= 1
-        if maze[y][x-1]==g:
-            maze[y][x]=b
-            x -= 1
-            win = true
-        if maze[y][x-1]==k:
-            maze[y][x]=b
-            x -= 1
-            gameOver=true
+        if not gameOver and not win:
+            if maze[y][x-1]==b:
+                maze[y][x]=b
+                x -= 1
+            if maze[y][x-1]==g:
+                maze[y][x]=b
+                x -= 1
+                win = true
+            if maze[y][x-1]==k:
+                maze[y][x]=b
+                x -= 1
+                gameOver=true
     if 170 < pitch and pitch < 350:
-        if maze[y][x+1]==b:
-            maze[y][x]=b
-            x += 1
-        if maze[1][x+1]== g:
-            maze[y][x]= b
-            x += 1
-            win = true
-        if maze[y][x+1]== k:
-            maze[y][x]=b
-            x += 1
-            gameOver=true
+        if not gameOver and not win:
+            if maze[y][x+1]==b:
+                maze[y][x]=b
+                x += 1
+            if maze[1][x+1]== g:
+                maze[y][x]= b
+                x += 1
+                win = True
+                print(' hi ')
+            if maze[y][x+1]== k:
+                maze[y][x]=b
+                x += 1
+                gameOver = True
     if 10 < roll and roll < 170:
-        if maze[y+1][x]==b:
-            maze[y][x]=b
-            y += 1
-        if maze[y+1][x]==g:
-            maze[y][x]=b
-            y += 1
-            win=true
-        if maze[y+1][x]==k:
-            maze[y][x]=b
-            y += 1
-            gameOver=true
+        if not gameOver and not win:
+            if maze[y+1][x]== b:
+                maze[y][x]=b
+                y += 1
+            if maze[y+1][x]==g:
+                maze[y][x]=b
+                y += 1
+                win=true
+            if maze[y+1][x]==k:
+                maze[y][x]=b
+                y += 1
+                gameOver=true
     if 170 < roll and roll < 350:
-        if maze[y-1][x]==b:
-            maze[y][x]=b
-            y -= 1
-        if maze[y-1][x]==g:
-            maze[y][x]=b
-            y -= 1
-            win = true
-        if maze[y-1][x]==k:
-            maze[y][x]=b
-            y -= 1
-            gameOver=true
+        if not gameOver and not win:
+            if maze[y-1][x]==b:
+                maze[y][x]=b
+                y -= 1
+            if maze[y-1][x]==g:
+                maze[y][x]=b
+                y -= 1
+                win = true
+            if maze[y-1][x]==k:
+                maze[y][x]=b
+                y -= 1
+                gameOver=true
     maze[y][x] = w
     if not win and not gameOver:
         sense.set_pixels(sum(maze,[]))
     if win:
+        sense.set_pixels(sum(maze,[]))
+        sleep(.125)
         wins += 1
         maze[y][x] = g
         sense.show_letter(str(wins),w,g)
@@ -124,8 +151,10 @@ while gameOver == False:
         sense.set_pixels(sum(maze,[]))
         sleep(.5)
     if gameOver:
+        sense.set_pixels(sum(maze,[]))
+        sleep(.25)
         losses += 1
-        maze[y][x]=k
+        maze[y][x]= k
         sense.show_letter(str(losses),w,k)
         sleep(1)
         gameOver = false
