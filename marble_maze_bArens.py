@@ -48,30 +48,27 @@ maze3 = [
 maze4 = [
     [r,r,r,r,r,r,r,r,],
     [r,b,r,b,b,b,b,r,],
-    [r,b,r,b,r,r,b,r,],
-    [r,b,r,b,g,r,b,r,],
-    [r,b,r,b,k,r,b,r,],
+    [r,b,r,r,b,r,b,r,],
+    [r,b,r,g,b,r,b,r,],
+    [r,b,r,k,b,r,b,r,],
     [r,b,r,r,r,r,b,r,],
     [r,b,b,b,b,b,b,r,],
     [r,r,r,r,r,r,r,r,],
     ]
 maze5 = [
     [r,r,r,r,r,r,r,r,],
+    [r,b,b,r,g,b,b,r,],
+    [r,b,b,r,r,b,b,r,],
+    [r,r,b,k,k,b,r,r,],
+    [r,r,b,k,k,b,r,r,],
+    [r,b,b,r,r,b,b,r,],
     [r,b,b,b,b,b,b,r,],
-    [r,b,b,b,b,b,b,r,],
-    [r,b,b,b,b,b,b,r,],
-    [r,b,b,b,b,b,b,r,],
-    [r,b,b,b,b,b,b,r,],
-    [r,b,b,b,b,b,g,r,],
-    [r,r,r,r,r,r,r,r,],
+    [r,r,r,r,r,r,r,r,]
     ]
-'''maze1,maze2,maze3,'''
-mazes = [maze4,'''maze5''']
+mazes = [maze1,maze2,maze3,maze4,maze5]
 maze = random.choice(mazes)
 y=1
 x=1
-nX=1
-nY=1
 gameOver = False
 win = False
 while gameOver == False:
@@ -80,24 +77,23 @@ while gameOver == False:
     pitch = o["pitch"]
     roll = o["roll"]
     yaw = o["yaw"]
-    sleep(0.125)
     if 10 < pitch and pitch < 170:
         if not gameOver and not win:
             if maze[y][x-1]==b:
                 maze[y][x]=b
                 x -= 1
-            if maze[y][x-1]==g:
+            if maze[y][x-1]== g:
                 maze[y][x]=b
                 x -= 1
-                win = true
+                win = True
             if maze[y][x-1]==k:
                 maze[y][x]=b
                 x -= 1
                 gameOver=true
     if 170 < pitch and pitch < 350:
         if not gameOver and not win:
-            if maze[y][x+1]==b:
-                maze[y][x]=b
+            if maze[y][x+1]== b:
+                maze[y][x]= b
                 x += 1
             if maze[1][x+1]== g:
                 maze[y][x]= b
@@ -142,12 +138,16 @@ while gameOver == False:
         sleep(.125)
         wins += 1
         maze[y][x] = g
-        sense.show_letter(str(wins),w,g)
-        sleep(1)
-        maze = random.choice(mazes)
-        win = false
-        x=1
-        y=1
+        if wins == 10:
+            sense.show_message('You Win!',.1,w,g)
+            break
+        else:
+            sense.show_letter(str(wins),w,g)
+            sleep(1)
+            maze = random.choice(mazes)
+            win = false
+            x=1
+            y=1
         sense.set_pixels(sum(maze,[]))
         sleep(.5)
     if gameOver:
@@ -155,9 +155,13 @@ while gameOver == False:
         sleep(.25)
         losses += 1
         maze[y][x]= k
-        sense.show_letter(str(losses),w,k)
-        sleep(1)
-        gameOver = false
-        x=1
-        y=1
-        sense.set_pixels(sum(maze,[]))
+        if losses == 10:
+            sense.show_message('You lose.',.1,w,k)
+            break 
+        else:
+            sense.show_letter(str(losses),w,k)
+            sleep(1)
+            gameOver = false
+            x=1
+            y=1
+            sense.set_pixels(sum(maze,[]))
