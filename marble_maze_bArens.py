@@ -6,12 +6,16 @@ import random
 
 false = False
 true = True
+
 r = (0,0,255)
-w = (255,255,255)
 b = (0,0,0)
 k = (255,0,0)
+kM = (155,0,0)
 g = (0,255,0)
+gM = (0,155,0)
+w = (255,255,255)
 wins = 0
+
 losses = 0
 
 def checkIfWall(newX, newY):
@@ -184,10 +188,9 @@ while gameOver == False:
             sense.show_message('You Win!',.1,w,g)
             break
         else:
-            sense.show_letter(str(wins),w,g)
+            sense.show_letter(str(wins),w,gM)
             sleep(1)
             maze = mazes.pop(random.randint(0,(len(mazes))-1))
-    
             win = false
             x=1
             y=1
@@ -199,7 +202,7 @@ while gameOver == False:
         losses += 1
         maze[y][x]= k
         if losses >= 10:
-            sense.show_message(str(losses),.0625,w,k)
+            sense.show_message(str(losses),.0625,w,kM)
             sleep(1)
             gameOver = false
             x=1
@@ -207,7 +210,7 @@ while gameOver == False:
             sense.set_pixels(sum(maze,[]))
             sleep(.25)
         else:
-            sense.show_letter(str(losses),w,k)
+            sense.show_letter(str(losses),w,kM)
             sleep(1)
             gameOver = false
             x=1
